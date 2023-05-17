@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <textarea id="txt"></textarea>
+    <button onclick="Scan()">UpperCase</button>
+    <button onclick="Check(document.getElementById('txt').value)">CHECK</button>
+    <button onclick="Symbols(document.getElementById('txt').value)">CODES</button>
+    <table class="table">
+        <caption>List of users</caption>
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col" class="col1" onclick="Sort('col1')">First</th>
+                <th scope="col" class="col2" onclick="Sort('col2')">Last</th>
+                <th scope="col" class="col3" onclick="Sort('col3')">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td class="col1">Mark</td>
+                <td class="col2">Otto</td>
+                <td class="col3">@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td class="col1">Jacob</td>
+                <td class="col2">Thornton</td>
+                <td class="col3">@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td class="col1">Larry</td>
+                <td class="col2">the Bird</td>
+                <td class="col3">@twitter</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        let array = [];
+        function Scan() {
+
+            array = document.getElementById('txt').value;
+            let array2 = [];
+            for (let i = 0; i < array.length; i++)
+                if (array[i - 1] == ' ' || i == 0)
+                    array2 += array[i].toUpperCase();
+                else array2 += array[i];
+            console.log(array2);
+        }
+        let mass = [];
+        function Check(text) {
+
+            let old = '';
+            for (i = 0; i < text.length; i++) {
+                if (old.includes(text[i])) {
+                    let newtext = text.slice(text.indexOf(text[i]) + 1, text.length);
+                    mass.push(old);
+                    return Check(newtext);
+                }
+                else { old += text[i]; }
+
+            } mass.push(old);
+            mass.sort(function (a, b) {
+                if (a.length > b.length)
+                    return -1;
+                else return 1;
+            });
+            console.log(mass[0]);
+            return mass = [];
+        }
+        function Symbols(text) {
+            for (let i = 0; i < text.length; i++) { console.log(text.charCodeAt(i)); }
+        }
+        function Sort(Class) {
+            
+            let users = {
+                user1: {
+                    name: '',
+                    surname: '',
+                    tag: ''
+                },
+                user2: {
+                    name: '',
+                    surname: '',
+                    tag: ''
+                },
+                user3: {
+                    name: '',
+                    surname: '',
+                    tag: ''
+                }
+            };
+            let array1 = Mover('col1');
+            
+            users.user1.name = array1[0];
+            users.user2.name = array1[1];
+            users.user3.name = array1[2];
+            let array2 = Mover('col2');
+            users.user1.surname = array2[0];
+            users.user2.surname = array2[1];
+            users.user3.surname = array2[2];
+            let array3 = Mover('col3');
+            users.user1.tag = array3[0];
+            users.user2.tag = array3[1];
+            users.user3.tag = array3[2];
+            console.log(users);
+            let sortedArray = [];
+            if (Class == 'col1')
+                sortedArray = Sorter(array1);
+            else if (Class == 'col2')
+                sortedArray = Sorter(array2);
+            else if (Class == 'col3') sortedArray = Sorter(array3);
+            console.log(sortedArray);
+            let objectArray = [];
+            for (let i = 0; i < sortedArray.length; i++)
+                for (let element in users) {
+                    switch (Class) {
+                        case 'col1':
+                            if (sortedArray[i] == users[element].name)
+                                objectArray.push(users[element]);
+                            break;
+                        case 'col2':
+                            if (sortedArray[i] == users[element].surname)
+                                objectArray.push(users[element]);
+                            break;
+                        case 'col3':
+                            if (sortedArray[i] == users[element].tag)
+                                objectArray.push(users[element]);
+                            break;
+                }
+                }
+            Uploader(objectArray)
+           
+        }
+        function Sorter(array) {
+            return array.sort((a, b) => {
+                if (a[0] != '@') {
+                    if (a.charCodeAt(0) > b.charCodeAt(0))
+                        return 1;
+                    else return -1
+                }else {
+                        if (a.charCodeAt(1) > b.charCodeAt(1))
+                            return 1;
+                        else return -1
+                    }
+            })
+        }
+           
+        function Mover(Class) {
+            let array = [];
+            for (let i = 1; i < document.getElementsByClassName(Class).length; i++)
+                array.push(document.getElementsByClassName(Class)[i].innerHTML);
+            return array;
+        }
+        function Uploader(objectArray) {
+            console.log(objectArray);
+            for (let i = 0; i < 3; i++) {
+                document.getElementsByClassName('col1')[i+1].innerHTML = objectArray[i].name;
+                document.getElementsByClassName('col2')[i+1].innerHTML = objectArray[i].surname;
+                document.getElementsByClassName('col3')[i+1].innerHTML = objectArray[i].tag;
+            }
+        }
+    </script>
+
+</body>
+</html>
