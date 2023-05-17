@@ -80,42 +80,25 @@
         function Sort(Class) {
             
             let users = {
-                user1: {
-                    name: '',
-                    surname: '',
-                    tag: ''
-                },
-                user2: {
-                    name: '',
-                    surname: '',
-                    tag: ''
-                },
-                user3: {
-                    name: '',
-                    surname: '',
-                    tag: ''
-                }
+               
             };
             let array1 = Mover('col1');
-            
-            users.user1.name = array1[0];
-            users.user2.name = array1[1];
-            users.user3.name = array1[2];
             let array2 = Mover('col2');
-            users.user1.surname = array2[0];
-            users.user2.surname = array2[1];
-            users.user3.surname = array2[2];
             let array3 = Mover('col3');
-            users.user1.tag = array3[0];
-            users.user2.tag = array3[1];
-            users.user3.tag = array3[2];
+            for (let i = 0; i < document.getElementsByClassName(Class).length; i++) {
+                users[i] = { name: array1[i], surname: array2[i], tag: array3[i] }
+            }
             console.log(users);
             let sortedArray = [];
-            if (Class == 'col1')
-                sortedArray = Sorter(array1);
-            else if (Class == 'col2')
-                sortedArray = Sorter(array2);
-            else if (Class == 'col3') sortedArray = Sorter(array3);
+            switch (Class) {
+                case 'col1': sortedArray = Sorter(array1);
+                    break;
+                case 'col2': sortedArray = Sorter(array2);
+                    break;
+                case 'col3': sortedArray = Sorter(array3);
+                    break;
+            }
+           
             console.log(sortedArray);
             let objectArray = [];
             for (let i = 0; i < sortedArray.length; i++)
